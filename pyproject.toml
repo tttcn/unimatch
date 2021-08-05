@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "unimatch"
+version = "0.1.0"
+description = ""
+authors = ["tttcn <tttang.cn@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+nmslib = "^2.1.1"
+fastapi = "^0.65.2"
+requests = "^2.25.1"
+python-multipart = "^0.0.5"
+scipy = "^1.6.3"
+pandas = "^1.2.4"
+pytransform3d = "^1.8"
+opencv-python-headless = "^4.5.2"
+uvicorn = "^0.14.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pylint = "^2.8.3"
+yapf = "^0.31.0"
+flake8 = "^3.9.2"
+black = "^21.6b0"
+pyrealsense2 = "^2.47.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
