@@ -65,20 +65,20 @@ $ poetry install & poetry install --dev
     │   └── default.ini
     ├── core.py
     ├── database
-    │   ├── data1.bin
-    │   ├── data1.bin
-    │   ├── data1.bin
-    │   └── data1.bin
+    │   ├── db_index.bin
+    │   ├── db_index.bin.dat
+    │   ├── db_features.bin
+    │   └── db_map_poses.bin
     ├── gateway.py
     ├── __init__.py
     └──  map.py
 ```
 为了算法能够正常运行，需要在 config 目录下放置运行时需要的配置文件，为python标准配置文件格式，项目中为默认的配置文件。此外，在 database 目录下放置描述视觉地图的二进制文件，定位算法在初始化时将会读取这些文件。
-> 在使用 docker 镜像时应该将 config 和 database 两个目录进行映射，并且提前在目录中放置需要的配置文件和数据文件。
+> 在使用 docker 镜像时应该将 config 和 database 两个目录进行映射，并且提前在目录中放置需要的配置文件和数据文件。目前 database 目录下的4个文件名都是写死在代码中的，必须和目录结构中所示名称一致。
 
 ### 启动服务
 
-在开发中启动算法服务的方式很简单，使用 poetry 安装好开发环境之后可以用一行命令启动服务，通过localhost访问。
+在开发中启动算法服务的方式很简单，使用 poetry 安装好开发环境之后可以用一行命令启动服务，默认端口为8000，可以通过 http://localhost:8000/ 访问，接口用法可见[ wiki 页面](https://github.com/tttcn/unimatch/wiki)。
 
 ```sh
 $ cd unimatch
@@ -86,11 +86,15 @@ $ cd unimatch
 $ poetry run uvicorn gateway:app --reload
 ```
 
-在 docker 中已经配置了相应的启动命令，只需要注意将将 config 和 database 两个目录进行映射，并且提前在目录中放置需要的文件。
+在 docker 中已经配置了相应的启动命令，只需要注意将 config 和 database 两个目录进行映射，并且提前在目录中放置需要的文件。
 
 ```sh
 docker run -d -p 8000:8000 --name unimatch_service -v config文件夹的绝对路径:/code/unimatch/config -v database文件夹的绝对路径:/code/unimatch/database unimatchdocker:buster
 ```
+
+如果出现问题可以检查容器的 log 和各项配置属性，可以自查的常见问题有：
+- 目录映射是否正确。
+- 目录中是否放置了需要的 config 文件和4份 database 文件，文件名是否正确。
 
 
 ## 示例
