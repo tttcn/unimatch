@@ -6,10 +6,9 @@ import numpy as np
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import HTMLResponse
 
-from core import UniMatchService
+from unimatch.core import UniMatchService
 
 sys.path.append("..")
-import unimatch
 
 app = FastAPI()
 unimatch_service = UniMatchService(
@@ -26,7 +25,7 @@ async def get_position(image_file: bytes = File(...)):
     image = cv2.imdecode(buf, cv2.IMREAD_ANYCOLOR)
     is_success, pose = unimatch_service.get_pose(image)
     print(pose.xyz, type(pose.xyz))
-    if (is_success):
+    if is_success:
         response = {
             "status": "Positioning is success",
             "xyz": pose.xyz.tolist(),
@@ -48,7 +47,7 @@ async def create_files(files: List[bytes] = File(...)):
     image = cv2.imdecode(buf, cv2.IMREAD_ANYCOLOR)
     is_success, pose = unimatch_service.get_pose(image)
     print(pose.xyz, type(pose.xyz))
-    if (is_success):
+    if is_success:
         response = {
             "status": "Positioning is success",
             "xyz": pose.xyz.tolist(),
